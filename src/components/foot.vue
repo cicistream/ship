@@ -25,15 +25,14 @@
 		bottom: 0;
 		width: 100%;
 		overflow: hidden;
-		height: 1.6rem;
-		width: 100%;
+		height: 1.2rem;
 		z-index: 3;
 		background-color: #fff;
 	}
 	.footnav{
-		width: 100%;
 		display: flex;
-		justify-content: space-around;
+    justify-content: space-around;
+    line-height: 1.2rem;
 		color: #a1a1a1;
 	}
 </style>

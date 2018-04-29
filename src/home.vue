@@ -28,7 +28,7 @@
 </template>
 <script>
 	import shipHead from './components/shipHead';
-    import foot from './components/foot'
+  import foot from './components/foot'
 	export default{
 		name:'home',
 		components:{
@@ -80,8 +80,9 @@
 	}
 </script>
 <style>
-    .homePage{
-		background-color: #ececec;
-     }
+  .homePage{
+    background-color: #ececec;
+    width: 100vw;
+  }
 
 </style>

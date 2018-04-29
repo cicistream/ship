@@ -4,11 +4,17 @@
   </div>
 </template>
 <script>
+import cssReset from "../node_modules/vux/src/styles/index"
+import mainCss from "./main.css"
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    cssReset,
+  }
 }
 </script>
-<style lang="less">
+<style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

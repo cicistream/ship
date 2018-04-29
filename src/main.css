@@ -1,3 +1,11 @@
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+a{
+  text-decoration: none;
+}
 @font-face {
   font-family: 'iconfont';  /* project id 586349 */
   src: url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.eot');
@@ -26,7 +34,6 @@ ul,ol{
     padding:0.2rem;
     font-size: 0.4rem;
     margin-bottom: 1rem;
-    line-height: 0.8rem;
     color: #88878a;
     text-align: left;
   }
