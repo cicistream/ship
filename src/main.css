@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 586349 */
+  src: url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.eot');
+  src: url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:28px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+ul,ol{
+    list-style: none;
+}
+.router-link-active{
+  color: #202020 !important;
+}
+
+.stream{
+    columns: 2;
+    column-gap: 0.3rem;
+    padding:0.2rem;
+    font-size: 0.4rem;
+    margin-bottom: 1rem;
+    line-height: 0.8rem;
+    color: #88878a;
+    text-align: left;
+  }
+  .stream p{
+    display: inline-block;
+  }
+  .stream .pic{
+    width: 100%;
+    height: auto;
+  }
+  .stream .portrait{
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 999px;
+  }
+  .picItem{
+    background-color: #fff;
+    border-radius: 0.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .picInfo{
+    padding-left: 0.32rem;
+  }
+  .picInfo .iconfont{
+    font-size: 0.4rem;
+  }
+  .picInfo p{
+    margin-right: 0.2rem;
+  }
+  .owner{
+    padding-left: 0.2rem;
+  }
+  .owner .picName{
+    display: inline-block;
+    line-height: 0.5rem;
+  }
+  .picName p{
+    display: block;
+  }
+  .picAlbum{
+    color: #454545;
+  }
