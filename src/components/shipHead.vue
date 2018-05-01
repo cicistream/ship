@@ -1,5 +1,5 @@
 <template>
-	<nav  class="shipHead">
+	<nav class="shipHead">
 		<i class="iconfont">&#xe74f;</i>
 		<p>欢迎来到Ship</p>
 	</nav>

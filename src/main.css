@@ -8,11 +8,11 @@ a{
 }
 @font-face {
   font-family: 'iconfont';  /* project id 586349 */
-  src: url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.eot');
-  src: url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.eot?#iefix') format('embedded-opentype'),
-  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.woff') format('woff'),
-  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.ttf') format('truetype'),
-  url('http://at.alicdn.com/t/font_586349_7sdd51b3mg52vs4i.svg#iconfont') format('svg');
+  src: url('http://at.alicdn.com/t/font_586349_vejihmymqplj714i.eot');
+  src: url('http://at.alicdn.com/t/font_586349_vejihmymqplj714i.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_586349_vejihmymqplj714i.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_586349_vejihmymqplj714i.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_586349_vejihmymqplj714i.svg#iconfont') format('svg');
 }
 .iconfont{
     font-family:"iconfont" !important;
@@ -32,7 +32,7 @@ ul,ol{
     columns: 2;
     column-gap: 0.3rem;
     padding:0.2rem;
-    font-size: 0.4rem;
+    font-size: 14px;
     margin-bottom: 1rem;
     color: #88878a;
     text-align: left;
@@ -54,11 +54,17 @@ ul,ol{
     border-radius: 0.2rem;
     margin-bottom: 0.4rem;
   }
+  .picDes{
+    color: #202020;
+    font-size: 12px;
+    padding-left: 0.3rem;
+    height: 0.5rem;
+  }
   .picInfo{
     padding-left: 0.32rem;
   }
   .picInfo .iconfont{
-    font-size: 0.4rem;
+    font-size: 12px;
   }
   .picInfo p{
     margin-right: 0.2rem;
