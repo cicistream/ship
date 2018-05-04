@@ -3,8 +3,10 @@
     <div class="zoneAlbums">
       <div v-for="item in albums" class="zoneAlbum">
           <img class="zoneAlbumShow" v-lazy='item.imgUrl'>
-          <span style="font-weight: bold">{{item.des}}</span>
-          <span>{{item.quantity}}</span>
+          <div class="zoneAlbumDes">
+            <span style="font-weight: bold">{{item.des}}</span>
+            <span>{{item.quantity}}</span>
+          </div>
       </div>
     </div>
   </div>
@@ -43,8 +45,18 @@
   .zoneAlbum{
     height: 6rem;
     background-color: #fff;
+    position: relative;
+    overflow: hidden;
   }
   .zoneAlbumShow{
-    
+    max-width: 100%;
+    z-index: -1;
+  }
+  .zoneAlbumDes{
+    width: 100%;
+    height: 2.5rem;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
   }
 </style>

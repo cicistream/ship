@@ -87,8 +87,7 @@
   }
   .myPanel .infoShow{
     margin-top: 0.2rem;
-    padding: 0.2rem 0.1rem;
-    border: 1px solid red;
+    padding: 0.2rem 0.2rem;
     min-height: 70vh;
     background-color: rgb(236,236,236);
   }
