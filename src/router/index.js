@@ -7,6 +7,7 @@ import detail from '@/detail'
 import album from '@/album'
 import like from '@/like'
 import idol from '@/idol'
+import result from '@/result'
 
 Vue.use(Router)
 
@@ -50,9 +51,14 @@ export default new Router({
       ]
     },
     {
-      path: '/detail/:picId',
+      path: '/detail/:id',
       name: 'detail',
       component: detail
+    },
+    {
+      path: '/result/:tag',
+      name: 'result',
+      component: result
     },
   ]
 })

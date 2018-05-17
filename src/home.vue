@@ -94,9 +94,9 @@
 			}
     },
     methods: {
-      toDetail(id){
-        this.$router.push({ name: 'detail', params: { picId: id }});
-      }
+      // toPicDetail: function(value){
+      //   this.toDetail(value);
+      // } 
     }
 	}
 </script>

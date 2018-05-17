@@ -6,12 +6,12 @@
         <mt-search
           v-model="searchValue"
           cancel-text="取消"
-          placeholder="搜索" class="mt-search">
+          placeholder="搜索" class="mt-search" @click="toResult(searchValue)">
         </mt-search>
       </header>       
 			<div class="cate">
 				<ul class="cateList">
-					<li v-for="item in categoryList">
+					<li v-for="item in categoryList" @click="toResult(item.tag)">
 						<img :src="item.imgUrl" alt="category" class="cateItem">
 						<p class="cateDescribe">{{item.des}}</p>
 					</li>
@@ -34,43 +34,43 @@
 				categoryList:[
 				{
 					imgUrl:require("../src/assets/plane.jpeg"),
-					des:"平面"
+					tag:"平面"
 				},
 				{
 					imgUrl:require("../src/assets/cartoon.jpeg"),
-					des:"动漫"
+					tag:"动漫"
         },
         {
 					imgUrl:require("../src/assets/look.jpeg"),
-					des:"穿搭"
+					tag:"穿搭"
         },
         {
 					imgUrl:require("../src/assets/travel.png"),
-					des:"旅行"
+					tag:"旅行"
         },
         {
 					imgUrl:require("../src/assets/pet.jpeg"),
-					des:"宠物"
+					tag:"宠物"
         },
         {
 					imgUrl:require("../src/assets/portrait.jpeg"),
-					des:"头像"
+					tag:"头像"
         },
         {
 					imgUrl:require("../src/assets/alive.jpeg"),
-					des:"生活"
+					tag:"生活"
         },
         {
 					imgUrl:require("../src/assets/dog.jpeg"),
-					des:"动漫"
+					tag:"动漫"
         },
         {
 					imgUrl:require("../src/assets/leaf.jpg"),
-					des:"动漫"
+					tag:"动漫"
         },
         {
 					imgUrl:require("../src/assets/plane.jpeg"),
-					des:"动漫"
+					tag:"动漫"
 				}
 			]
 			}

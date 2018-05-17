@@ -5,27 +5,30 @@
       <router-link to="/" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
-      <mt-button icon="more" slot="right"></mt-button>
+      <router-link to="/" slot="right">
+        <mt-button><i class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe735;</i></mt-button>
+        <mt-button icon="more"></mt-button>
+      </router-link>
     </mt-header>
     <div class="container">
-      <img class="imgShow" :src='picUrl'></img>
-      <div class="picInfo">
-        <p v-if='picDes' class="picDesDetail">{{picDes}}</p>
-        <i class="iconfont">&#xe736;</i>
+      <img class="imgShow" v-lazy='detailImg.imgUrl'></img>
+      <div v-if='detailImg.des' class="picInfo">
+        <p class="picDesDetail">{{detailImg.des}}</p>
+        <!-- <i class="iconfont">&#xe736;</i>
         <span>20</span>
         <i class="iconfont">&#xe83b;</i>
-        <span>3</span>
+        <span>3</span> -->
       </div>
       <div class="owner">
-        <img class="portrait" v-lazy="picPortrait">   <span>{{picAuthor}}</span><br>
-        <img class="albumPic" v-lazy="albumPic">   <span>{{picAlbum}}</span>
+        <img class="portrait" v-lazy="detailImg.portrait">   <span>{{detailImg.id}}</span><br>
+        <img class="albumPic" v-lazy="detailImg.portrait">   <span>{{detailImg.name}}</span>
       </div>
     </div>
     <div class="morePic">
       <p class="moreLike">推荐喜欢</p>
       <div class="stream">
           <div v-for="pic in morePic">
-              <div class="picItem" @click='toDetail(pic.id)'>
+              <div class="picItem" @click='toDetail(pic)'>
                 <img class="pic" v-lazy="pic.imgUrl">
                 <p v-if='pic.des' class="picDes">{{pic.des}}</p>
               </div>
@@ -45,15 +48,19 @@
       foot,
       Lazyload
     },
+    mounted() {
+    this.getPost(this.$route.params.id);
+    },
+    watch: {
+    '$route' (to, from) {
+        if(to.name === 'detail'){
+          this.getPicDetail(to.params.id);
+        }
+      }
+    },
     data(){
       return{
-        detailImg: '',
-        picDes: '尝试',
-        picAuthor: 'cicistream',
-        picAlbum: '萌宠',
-        picUrl: require('./assets/pet.jpeg'),
-        albumPic: require('./assets/pet.jpeg'),
-        picPortrait: require('./assets/me.jpg'),
+        detailImg: {},
         morePic:[
 					{   
 						id: "cicistream",
@@ -107,10 +114,13 @@
 				   ]
 			}
     },
-    computed: {
-      detailValue: function(value){
-        this.detailImg=this.$router.params.picId;
-        return this.detailImg;
+    methods:{
+      getPicDetail(id){
+        this.$http.get(`/detail/${id}`).then((response) => {
+            if(response.data.code === 0){
+                this.detailImg = response.data.pic;
+            }
+        });
       }
     }
   }
