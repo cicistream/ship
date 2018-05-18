@@ -27,58 +27,14 @@ ul,ol{
 .router-link-active{
   color: #202020 !important;
 }
-
-.stream{
-    columns: 2;
-    column-gap: 0.3rem;
-    padding:0.2rem;
-    font-size: 14px;
-    margin-bottom: 1rem;
-    color: #88878a;
-    text-align: left;
-  }
-  .stream p{
-    display: inline-block;
-  }
-  .stream .pic{
-    width: 100%;
-    height: auto;
-  }
-  .stream .portrait{
-    width: 0.68rem;
-    height: 0.68rem;
-    border-radius: 999px;
-  }
-  .picItem{
-    background-color: #fff;
-    border-radius: 0.2rem;
-    margin-bottom: 0.4rem;
-  }
-  .picDes{
-    color: #202020;
-    font-size: 12px;
-    padding-left: 0.3rem;
-    height: 0.5rem;
-  }
-  .picInfo{
-    padding-left: 0.32rem;
-  }
-  .picInfo .iconfont{
-    font-size: 12px;
-  }
-  .picInfo p{
-    margin-right: 0.2rem;
-  }
-  .owner{
-    padding-left: 0.2rem;
-  }
-  .owner .picName{
-    display: inline-block;
-    line-height: 0.5rem;
-  }
-  .picName p{
-    display: block;
-  }
-  .picAlbum{
-    color: #454545;
-  }
+.no-list{
+  width: 100%;
+  line-height: 20vh;
+}
+.container{
+  background-color: #ececec;
+}
+.top-header.mint-header{
+  background-color: #f8f8f8;
+  color: black;
+}

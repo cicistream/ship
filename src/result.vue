@@ -11,24 +11,14 @@
             <p @click="active='likePicture'">图片</p>
             <p @click="active='albumPicture'">画集</p>
         </div>
-        <mt-tab-container v-model="active">
+        <mt-tab-container v-model="active" style="background-color: #ececec; min-height: 80vh;">
           <mt-tab-container-item id="likePicture">
-            <mt-cell>
-              <div>
-                <div v-for="(item,index) in likePicture" :key="item.id">
-                    <img class="re" v-lazy="item.imgUrl">
-                </div>
-              </div>
-            </mt-cell>
+            <div class="no-list" v-if="!likePicture.length">暂无结果</div>
+            <water v-else :dataSource="likePicture"></water>
           </mt-tab-container-item>
           <mt-tab-container-item id="albumPicture">
-            <mt-cell>
-                <div>
-                  <div v-for="(item,index) in albumPicture" :key="item.id">
-                      <img class="re" v-lazy="item.imgUrl">
-                  </div>
-                </div>
-            </mt-cell>
+            <div class="no-list" v-if="!albumPicture.length">暂无结果</div>
+            <layout v-else :dataSource="albumPicture"></layout>
           </mt-tab-container-item>
         </mt-tab-container>          
     </div>
@@ -39,10 +29,14 @@
   import { Header } from 'mint-ui';
   import { Lazyload } from 'mint-ui';
   import { TabContainer, TabContainerItem } from 'mint-ui';
+  import water from './components/water.vue';
+  import layout from './components/layout.vue';
+
+
   export default{
     name: "result",
     components: {
-      foot,Header,Lazyload,TabContainer,TabContainerItem
+      foot,Header,Lazyload,TabContainer,TabContainerItem,water,layout
     },
     data(){
       return {
@@ -51,18 +45,76 @@
           tag: "人文艺术"
         },
         likePicture:[
-          {
-            id:6,
-            imgUrl: require("./assets/alive.jpeg"),
-            tag: ["人文艺术"]
-          }
+        {   
+						id: "cicistream",
+            name: "hua",
+            des: '关于图片的描述',
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/road.jpg"),
+						portrait: require("../src/assets/logo.png")
+					},
+					{   
+						id: "coco",
+            name: "nian",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/us.jpg"),
+						portrait: require("../src/assets/he.jpg")
+					},
+					{   
+						id: "Kira",
+            name: "hua",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/me.jpg"),
+						portrait: require("../src/assets/logo.png")
+					},
+					
+					{   
+						id: "cicistream",
+            name: "hua",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/hair.jpg"),
+						portrait: require("../src/assets/logo.png")
+					}
         ],
         albumPicture:[
-          {
-            id:6,
-            imgUrl: require("./assets/cartoon.jpeg"),
-            tag: ["人文艺术"]
-          }
+        {   
+						id: "cicistream",
+            name: "hua",
+            des: '关于图片的描述',
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/road.jpg"),
+						portrait: require("../src/assets/logo.png")
+					},
+					{   
+						id: "coco",
+            name: "nian",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/us.jpg"),
+						portrait: require("../src/assets/he.jpg")
+					},
+					{   
+						id: "Kira",
+            name: "hua",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/me.jpg"),
+						portrait: require("../src/assets/logo.png")
+					},
+					
+					{   
+						id: "cicistream",
+            name: "hua",
+            like: 20,
+            collect: 3,
+						imgUrl: require("../src/assets/hair.jpg"),
+						portrait: require("../src/assets/logo.png")
+					}
         ]
       }
     },

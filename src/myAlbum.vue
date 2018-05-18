@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="zoneAlbums">
-      <div v-for="item in albums" class="zoneAlbum">
+      <div class="no-list" v-if="!albumList.length">暂无收藏</div>
+      <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
           <img class="zoneAlbumShow" v-lazy='item.imgUrl'>
           <div class="zoneAlbumDes">
             <span style="font-weight: bold">{{item.des}}</span>
@@ -14,19 +15,21 @@
 <script>
   import { Lazyload } from 'mint-ui';
   export default{
-    name: 'album',
+    name: 'myAlbum',
     components: {
       Lazyload
     },
     data(){
       return{
-        albums:[
+        albumList:[
           {
+            id: 110,
             imgUrl: require('./assets/he.jpg'),
             des: '关于他的故事',
             quantity: 20
           },
           {
+            id: 111,
             imgUrl: require('./assets/he.jpg'),
             des: '关于他的故事',
             quantity: 20

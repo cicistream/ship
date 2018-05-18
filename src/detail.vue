@@ -6,7 +6,10 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/" slot="right">
-        <mt-button><i class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe735;</i></mt-button>
+        <mt-button>
+          <i v-if="hasCollect" class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
+          <i v-else class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe735;</i>
+        </mt-button>
         <mt-button icon="more"></mt-button>
       </router-link>
     </mt-header>
@@ -20,20 +23,13 @@
         <span>3</span> -->
       </div>
       <div class="owner">
-        <img class="portrait" v-lazy="detailImg.portrait">   <span>{{detailImg.id}}</span><br>
-        <img class="albumPic" v-lazy="detailImg.portrait">   <span>{{detailImg.name}}</span>
+        <img @click="toHisZone(detailImg.author)" class="portrait" v-lazy="detailImg.portrait">   <span>{{detailImg.id}}</span><br>
+        <img @click="toAlbum(detailImg.album)" class="albumPic" v-lazy="detailImg.portrait">   <span>{{detailImg.name}}</span>
       </div>
     </div>
     <div class="morePic">
       <p class="moreLike">推荐喜欢</p>
-      <div class="stream">
-          <div v-for="pic in morePic">
-              <div class="picItem" @click='toDetail(pic)'>
-                <img class="pic" v-lazy="pic.imgUrl">
-                <p v-if='pic.des' class="picDes">{{pic.des}}</p>
-              </div>
-            </div>
-      </div>
+      <water :dataSource="morePic"></water>
     </div>
   </div>
 </template>
@@ -41,12 +37,14 @@
   import { Header } from 'mint-ui';
   import { Lazyload } from 'mint-ui';
   import foot from './components/foot';
+  import water from './components/water';
   export default{
     name: 'detail',
     components: {
       Header,
       foot,
-      Lazyload
+      Lazyload,
+      water
     },
     mounted() {
     this.getPost(this.$route.params.id);
@@ -61,6 +59,7 @@
     data(){
       return{
         detailImg: {},
+        hasCollect: 'true',
         morePic:[
 					{   
 						id: "cicistream",
@@ -116,7 +115,7 @@
     },
     methods:{
       getPicDetail(id){
-        this.$http.get(`/detail/${id}`).then((response) => {
+        this.$http.get(`detail/${id}`).then((response) => {
             if(response.data.code === 0){
                 this.detailImg = response.data.pic;
             }

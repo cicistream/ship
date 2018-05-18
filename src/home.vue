@@ -3,27 +3,7 @@
 		<shipHead></shipHead>		
 		<foot></foot>
 		<div class="homeContent">
-			<div class="stream">
-				<div v-for="pic in album">
-					<div class="picItem" @click='toDetail(pic.id)'>
-            <img class="pic" v-lazy="pic.imgUrl">
-            <p v-if='pic.des' class="picDes">{{pic.des}}</p>
-						<div class="picInfo">
-							<i class="iconfont">&#xe736;</i>
-							<p>{{pic.like}}</p>
-							<i class="iconfont">&#xe83b;</i>
-							<p>{{pic.collect}}</p>
-						</div>
-						<div class="owner">
-							<img class="portrait" v-lazy="pic.portrait">
-							<div class="picName">
-								<p class="picOwner">{{pic.id}}</p>
-								<p class="picAlbum">{{pic.name}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<water :dataSource="homeSource"></water>
 		</div>
 	</div>
 </template>
@@ -31,16 +11,18 @@
 	import shipHead from './components/shipHead';
   import foot from './components/foot';
   import { Lazyload } from 'mint-ui';
+  import water from './components/water.vue'
 	export default{
 		name:'home',
 		components:{
 			shipHead,
       foot,
-      Lazyload
+      Lazyload,
+      water
 		},
 		data(){
 			return{
-				album:[
+				homeSource:[
 					{   
 						id: "cicistream",
             name: "hua",

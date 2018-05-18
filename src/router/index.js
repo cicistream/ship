@@ -4,11 +4,15 @@ import home from '@/home'
 import category from '@/category'
 import zone from '@/zone'
 import detail from '@/detail'
-import album from '@/album'
+import myAlbum from '@/myAlbum'
 import like from '@/like'
 import idol from '@/idol'
 import result from '@/result'
-
+import album from '@/albumDetail'
+import set from '@/set'
+import newAlbum from '@/newAlbum'
+import upload from '@/upload'
+import fans from '@/fans'
 Vue.use(Router)
 
 export default new Router({
@@ -31,12 +35,12 @@ export default new Router({
       path: '/zone',
       name: 'zone',
       component: zone,
-      redirect: { name: 'album'},
+      redirect: { name: 'myAlbum'},
       children: [
         {
-          path: 'album',
-          name: 'album',
-          component: album
+          path: 'myAlbum',
+          name: 'myAlbum',
+          component: myAlbum
         },
         {
           path: 'like',
@@ -59,6 +63,31 @@ export default new Router({
       path: '/result/:tag',
       name: 'result',
       component: result
+    },
+    {
+      path: '/album/:album',
+      name: 'album',
+      component: album
+    },
+    {
+      path: '/newAlbum',
+      name: 'newAlbum',
+      component: newAlbum
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: upload
+    },
+    {
+      path: '/set/:id',
+      name: 'set',
+      component: set
+    },
+    {
+      path: '/fans/:id',
+      name: 'fans',
+      component: fans
     },
   ]
 })
