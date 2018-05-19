@@ -10,7 +10,7 @@
             <p>{{pic.collect}}</p>
           </div>
           <div class="owner">
-            <img class="portrait" v-lazy="pic.portrait" @click="toZone(pic.author)">
+            <img class="portrait" v-lazy="pic.portrait" @click="toZone(pic.id)">
             <div class="picName">
               <p class="picOwner">{{pic.id}}</p>
               <p class="picAlbum">{{pic.name}}</p>
@@ -36,7 +36,6 @@
   .stream{
     columns: 2;
     column-gap: 0.3rem;
-    padding:0.2rem;
     font-size: 14px;
     margin-bottom: 1rem;
     color: #88878a;

@@ -1,19 +1,35 @@
 <template>
-    <div>
+    <div class="container">
       <div class="no-list" v-if="!idolList.length">暂无关注</div>
-      <layout v-else :dataSource="idolList"></layout>
+      <people v-else :dataSource="idolList"></people>
     </div>
   </template>
   <script>
-    import layout from './components/layout.vue'
+    import people from './components/people.vue'
     export default{
       name: "idol",
       components:{
-        layout,
+        people,
       },
       data(){
         return{
-          idolList:[]
+         idolList:[
+           {
+             id: "cicistream",
+             des: "hhh",
+             imgUrl: require("./assets/me.jpg")
+           },
+           {
+             id: "cicistream",
+             des: "hhh",
+             imgUrl: require("./assets/me.jpg")
+           },
+           {
+             id: "cicistream",
+             des: "hhh",
+             imgUrl: require("./assets/me.jpg")
+           }
+         ]
         }
       }
     }

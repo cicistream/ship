@@ -2,9 +2,9 @@
   <div>
     <foot></foot>
     <mt-header title="图片详情" style="background-color: #f8f8f8;color: black">
-      <router-link to="/" slot="left">
+      <div @click="routerBack" slot="left">
         <mt-button icon="back">返回</mt-button>
-      </router-link>
+      </div>
       <router-link to="/" slot="right">
         <mt-button>
           <i v-if="hasCollect" class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
@@ -120,7 +120,10 @@
                 this.detailImg = response.data.pic;
             }
         });
-      }
+      },
+      routerBack(){
+        this.$router.go(-1);
+      },
     }
   }
 </script>

@@ -17,7 +17,15 @@
 	</footer>
 </template>
 <script>
-	
+  import userInfo from './userInfo.vue'
+	export default{
+    name: 'foot',
+    data(){
+      return{
+        id : userInfo.userId
+      }
+    }
+  }
 </script>
 <style>
 	footer{

@@ -13,7 +13,7 @@
 				<ul class="cateList">
 					<li v-for="item in categoryList" @click="toResult(item.tag)">
 						<img :src="item.imgUrl" alt="category" class="cateItem">
-						<p class="cateDescribe">{{item.des}}</p>
+						<p class="cateDescribe">{{item.tag}}</p>
 					</li>
 				</ul>
 			</div>
@@ -96,15 +96,21 @@
 		overflow: hidden;
   }
   .cateList li{
+    height: 3.5rem;
+    overflow: hidden;
     background-color: #f8f8f8;
     margin-bottom: 0.4rem;
     border-radius: 0.2rem;
   }
 	.cateItem{
-    height: 3rem;
+    height: 2.2rem;
     /* width: 3rem; */
-    min-width: 100%;
+    min-width: 80%;
     /* max-height: 100%; */
     border-radius: 0.2rem 0.2rem 0 0; 
-	}
+  }
+  .cateDescribe{
+    font-size: 14px;
+    line-height: 30px;
+  }
 </style>

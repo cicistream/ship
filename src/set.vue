@@ -1,22 +1,71 @@
 <template>
-  <div class="containder">
-
+  <div>
+      <mt-header title="设置" class="top-header">
+        <router-link to="/zone" slot="left">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+        <mt-button slot="right" @click="postSet">保存</mt-button>
+      </mt-header>
+      <div style="padding: 20px 0;">
+        <img :src="imgUrl" style=" width: 200px;height: 200px;border-radius: 99px;">
+        <p class="list-head" style="padding: 20px 0;">账号信息<i style="color: red;">*</i></p>
+        <mt-field label="用户名" placeholder="username" v-model="username"></mt-field>
+        <mt-field label="密码" placeholder="password" type="password" v-model="password"></mt-field>
+      </div>
   </div>
 </template>
 <script>
-  export default{
-    name: "",
-    components: {
+  import { Actionsheet } from 'mint-ui';
+  import { Header } from 'mint-ui';
+  import userInfo from './components/userInfo.vue'
+  import { Field } from 'mint-ui';
 
+  export default{
+    name: "set",
+    components: {
+      Header,Actionsheet,Field,userInfo
     },
     data(){
       return{
-
+        name: userInfo.userId,
+        imgUrl: userInfo.imgUrl,
+        newPassword: userInfo.password
+      }
+    },
+    computed:{
+      username:{
+        set(value){
+          this.name = value;
+        },
+        get(){
+          return this.name;
+        }
+      },
+      password:{
+        set(value){
+          this.newPassword = value;
+        },
+        get(){
+          return this.newPassword;
+        }
       }
     },
     methods:{
-
+      postSet(){
+        if(this.username&&this.password&&this.imgUrl){
+          userInfo.userId = this.username;
+          userInfo.password = this.password;
+          userInfo.imgUrl = this.imgUrl;
+        }else {
+          alert("所有信息不得为空！");
+        }
+      }
     }
   }
 </script>
-<style></style>
+<style>
+  .list-head{
+    font-size: 16px;
+    color: lightslategray;
+  }
+</style>

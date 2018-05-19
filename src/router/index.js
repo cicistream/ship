@@ -75,12 +75,12 @@ export default new Router({
       component: newAlbum
     },
     {
-      path: '/upload',
+      path: '/upload/:id',
       name: 'upload',
       component: upload
     },
     {
-      path: '/set/:id',
+      path: '/set',
       name: 'set',
       component: set
     },

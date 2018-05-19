@@ -2,13 +2,17 @@
   <div class="container">
     <div style="background-color: #f8f8f8">
       <mt-header class="top-header">
-        <div @click="goBack" slot="left">
+        <div @click="routerBack" slot="left">
           <mt-button icon="back">返回</mt-button>
         </div>
-        <div slot="right">
-          <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
-          <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
+        <div v-if="myAlbum" slot="right">
+          <p @click="toUpload" class="iconfont" style="color: crimson;font-size: 18px;margin-right: 10px;display: inline-block;">&#xe6b9;</p>
+          <mt-button @click="deletAlbum" size="small" type="danger">删除画板</mt-button>
         </div>
+        <div v-else slot="right">
+            <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
+            <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
+          </div>
       </mt-header>
       <div class="album-det">
         <p class="album-title">{{album.name}}</p>
@@ -25,12 +29,13 @@
       </div>
     </div>
     <div class="no-list" v-if="!hasPictureList.length">暂无图片</div>
-    <water v-else :dataSource="hasPictureList"></water>
+    <water style="padding: 5px;" v-else :dataSource="hasPictureList"></water>
   </div>
 </template>
 <script>
   import water from './components/water.vue'
   import { Header,Button } from 'mint-ui';
+  import userInfo from './components/userInfo.vue'
   export default{
     name: "album",
     components: {
@@ -39,6 +44,7 @@
     data(){
       return{
         album:{
+          id: 201,
           name: "相逢于海",
           des: "这是一首简单的小情歌，讲述两个鲸鱼相逢与茫茫海洋",
           author: "cici",
@@ -98,9 +104,26 @@
         hasAttention: 'true',
       }
     },
+    computed:{
+      myAlbum(){
+        if(this.album.author === userInfo.userId){
+          return 'true';
+        }
+        return 'false'
+;      }
+    },
     methods:{
       toggleAtt(){
         return this.hasAttention = !this.hasAttention;
+      },
+      routerBack(){
+        this.$router.go(-1);
+      },
+      deletAlbum(){
+        
+      },
+      toUpload(){
+        this.$router.push({name: 'upload',params:{id: this.album.id}})
       }
     }
   }

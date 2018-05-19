@@ -5,8 +5,9 @@
       <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
           <img class="zoneAlbumShow" v-lazy='item.imgUrl'>
           <div class="zoneAlbumDes">
-            <span style="font-weight: bold">{{item.des}}</span>
-            <span>{{item.quantity}}</span>
+            <p style="font-weight: bold;text-align: left;">{{item.name}}</p>
+            <p style="text-align: left;">"{{item.des}}"</p>
+            <span class="Anumber"><i class="iconfont">&#xe7ce;</i> {{item.number}} </span>
           </div>
       </div>
     </div>
@@ -25,14 +26,15 @@
           {
             id: 110,
             imgUrl: require('./assets/he.jpg'),
+            name: '是谁呢',
             des: '关于他的故事',
-            quantity: 20
+            number: 20
           },
           {
             id: 111,
             imgUrl: require('./assets/he.jpg'),
-            des: '关于他的故事',
-            quantity: 20
+            name: '关于他的故事',
+            number: 20
           }
         ]
       }
@@ -57,9 +59,19 @@
   }
   .zoneAlbumDes{
     width: 100%;
-    height: 2.5rem;
+    height: 1.8rem;
     background-color: #fff;
     position: absolute;
     bottom: 0;
+    padding: 5px;
+  }
+  .Anumber{
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+  }
+  .Anumber .iconfont{
+    color: red;
+    font-size: 12px;
   }
 </style>

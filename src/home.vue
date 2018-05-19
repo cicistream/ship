@@ -92,4 +92,7 @@
    height: 300px;
    margin: auto;
   }
+  .homeContent{
+    padding: 0 5px;
+  }
 </style>

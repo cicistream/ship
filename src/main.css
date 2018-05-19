@@ -33,6 +33,7 @@ ul,ol{
 }
 .container{
   background-color: #ececec;
+  min-height: 100vh;
 }
 .top-header.mint-header{
   background-color: #f8f8f8;
