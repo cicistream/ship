@@ -13,6 +13,7 @@ import set from '@/set'
 import newAlbum from '@/newAlbum'
 import upload from '@/upload'
 import fans from '@/fans'
+import login from '@/login'
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +26,11 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: home
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/category',

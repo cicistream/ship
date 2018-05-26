@@ -3,11 +3,11 @@
     <div class="zoneAlbums">
       <div class="no-list" v-if="!albumList.length">暂无收藏</div>
       <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
-          <img class="zoneAlbumShow" v-lazy='item.imgUrl'>
+          <img class="zoneAlbumShow" :src='item.hasPic[0].imgUrl'>
           <div class="zoneAlbumDes">
             <p style="font-weight: bold;text-align: left;">{{item.name}}</p>
             <p style="text-align: left;">"{{item.des}}"</p>
-            <span class="Anumber"><i class="iconfont">&#xe7ce;</i> {{item.number}} </span>
+            <span class="Anumber"><i class="iconfont">&#xe7ce;</i> {{item.hasPic.length}} </span>
           </div>
       </div>
     </div>
@@ -22,22 +22,30 @@
     },
     data(){
       return{
-        albumList:[
-          {
-            id: 110,
-            imgUrl: require('./assets/he.jpg'),
-            name: '是谁呢',
-            des: '关于他的故事',
-            number: 20
-          },
-          {
-            id: 111,
-            imgUrl: require('./assets/he.jpg'),
-            name: '关于他的故事',
-            number: 20
-          }
-        ]
+        albumList:[]
       }
+    },
+    async mounted(){
+      for(let i = 0; i <this.albums.length;i++){
+        await this.getAlbum(this.albums[i]);
+      }
+    },
+    computed:{
+      albums(){
+        return this.$route.params.data;
+      }
+    },
+    methods:{
+      getAlbum(value){
+          this.$http.get('/api/zone/myAlbum',{params:{name: value}}).then((res)=>{
+            if(res.data.code === 200){
+              console.log(res.data.data)
+              this.albumList = this.albumList.concat(res.data.data);
+            }
+          }).catch((e)=>{
+
+          })
+        }
     }
   }
 </script>

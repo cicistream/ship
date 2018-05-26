@@ -3,6 +3,7 @@
       <foot v-if="isMy()"></foot>
       <div class="myPanel">
         <nav v-if="isMy()" class="operation">
+            <mt-button @click="logout">logout</mt-button>
             <i @click="toNewAlbum" class="iconfont" style="color: crimson">&#xe6b9;</i>
             <router-link to="/set" replace class="iconfont">&#xe6ae;</router-link>
             <!-- <i class="iconfont">&#xe74e;</i> -->
@@ -17,14 +18,14 @@
           </div>
         </mt-header>
         <div class="userPanel">
-          <img class="portrait" v-lazy='portrait'>
+          <img class="portrait" v-lazy='user.imgUrl'>
           <p style="font-size: 20px;font-weight: bold">{{zoneHost}}</p>
-          <p @click="toFans">{{fans}} 粉丝 ></p>
+          <p @click="toFans">{{user.fans.length}} 粉丝 ></p>
         </div>
         <div class="infoPanel">
-          <router-link to='/zone/myAlbum' class="info">{{album}}<br>画集</router-link>
-          <router-link to='/zone/like' class="info">{{like}}<br>喜欢</router-link>
-          <router-link to='/zone/idol' class="info">{{idol}}<br>关注</router-link>
+          <router-link :to="{name: 'myAlbum', params: { data: user.albums}}" class="info">{{user.albums.length}}<br>画集</router-link>
+          <router-link :to="{name: 'like', params: { data: user.likes}}" class="info">{{user.likes.length}}<br>喜欢</router-link>
+          <router-link :to="{name: 'idol', params: { data: user.idols}}" class="info">{{user.idols.length}}<br>关注</router-link>
         </div>
         <router-view class="infoShow"></router-view>
       </div>
@@ -33,7 +34,7 @@
 </template>
 <script>
   import foot from './components/foot';
-  import { Lazyload,Header } from 'mint-ui';
+  import { Lazyload,Header,Button } from 'mint-ui';
   import layout from './components/layout.vue';
   import userInfo from './components/userInfo.vue';
 	export default{
@@ -42,16 +43,16 @@
       foot,
       Lazyload,
       Header,
-      userInfo
+      userInfo,
+      Button
+    },
+    async mounted(){
+      await this.getZoneData("cicistream");
     },
     data(){
       return{
         hasAttention: 'false',
-        fans: 0,
-        portrait: require('./assets/look.jpeg'),
-        like: 10,
-        album: 1,
-        idol: 3
+        user: {}
       }
     },
     computed:{
@@ -64,7 +65,23 @@
       isMy(){
         return this.zoneHost === userInfo.userId;
       },
+      getZoneData(value){
+        this.$http.get('/api/zone',{params:{name: value}}).then((res)=>{
+          if(res.data.code === 200){
+            var idols = res.data.data.idols;
+            for(let i = 0;i<idols.length;i++){
+              if(idols[i]==this.zoneHost){
+                this.hasAttention = 'true';
+              }
+            }
+            this.user = res.data.data;
+          }
+        }).catch((e)=>{
+
+        })
+      },
       toggleAtt(){
+        this.checkIn();
         return this.hasAttention = !this.hasAttention;
       },
       routerBack(){
@@ -75,6 +92,10 @@
       },
       toNewAlbum(){
         this.$router.replace({name:'newAlbum',params:{id: this.zoneHost}});
+      },
+      logout(){
+        userInfo.log = 'false' ;
+        this.$router.push({name:"login"});
       }
     }
 	}

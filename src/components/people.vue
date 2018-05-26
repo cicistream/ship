@@ -1,11 +1,11 @@
 <template>
     <div class="static-container">
-      <div class="people" v-for="(people,index) in dataSource" @click="toZone(people.id)">
+      <div class="people" v-for="(people,index) in dataSource" @click="toZone(people.name)">
         <div class="idol-header">
             <img :src="people.imgUrl">
         </div>
         <div class="layout-des">
-            <p>{{people.id}}</p>
+            <p>{{people.name}}</p>
             <p>{{people.des}}</p>
         </div>
       </div>

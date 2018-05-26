@@ -1,9 +1,29 @@
 <template>
-	<div class="homePage">
-		<shipHead></shipHead>		
+	<div class="homePage" @click="init">
+    <shipHead></shipHead>		
 		<foot></foot>
 		<div class="homeContent">
-			<water :dataSource="homeSource"></water>
+        <div class="stream" v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10">
+        <div v-for="pic in homeSource" class="picItem">
+          <img class="pic" v-lazy="pic.imgUrl" @click='toDetail(pic.id)'>
+          <p v-if='pic.des' class="picDes">{{pic.des}}</p>
+          <div class="picInfo">
+            <i class="iconfont">&#xe736;</i>
+            <p>{{pic.like}}</p>
+            <i class="iconfont">&#xe83b;</i>
+            <p>{{pic.collect.length}}</p>
+          </div>
+          <div class="owner">
+            <img class="portrait" v-lazy="pic.authorUrl" @click="toZone(pic.name)">
+            <div class="picName">
+              <p class="picOwner">{{pic.name}}</p>
+              <p class="picAlbum">{{pic.collect[0]}}</p>
+            </div>
+          </div>
+        </div>
+    </div>
 		</div>
 	</div>
 </template>
@@ -12,73 +32,54 @@
   import foot from './components/foot';
   import { Lazyload } from 'mint-ui';
   import water from './components/water.vue'
+  import userInfo from "./components/userInfo.vue";
+  import { InfiniteScroll } from 'mint-ui';
 	export default{
 		name:'home',
 		components:{
 			shipHead,
       foot,
       Lazyload,
-      water
-		},
+      water,
+      userInfo,
+      InfiniteScroll
+    },
+    mounted(){
+      this.getHome(0);
+    },
 		data(){
 			return{
-				homeSource:[
-					{   
-						id: "cicistream",
-            name: "hua",
-            des: '关于图片的描述',
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/road.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "coco",
-            name: "nian",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/us.jpg"),
-						portrait: require("../src/assets/he.jpg")
-					},
-					{   
-						id: "Kira",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/me.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/feng.jpeg"),
-						portrait: require("../src/assets/pic.jpeg")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/hair.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/we.jpg"),
-						portrait: require("../src/assets/logo.png")
-					}
-				   ]
-			}
+        page: 0,
+        homeSource: [],
+        collection: 0 
+      }
     },
     methods: {
-      // toPicDetail: function(value){
-      //   this.toDetail(value);
-      // } 
+      getHome: function(value){
+        this.$http.get('/api/home',{
+          params:{
+            page: value
+          }
+        }).then((res)=>{
+          if(res.data){
+            if(!res.data.data){alert("已无更多图片！") }
+            this.homeSource = this.homeSource.concat(res.data.data) ;
+          }
+        }).catch((e)=>{
+         console.log(e)
+      })
+      }, 
+      init(){
+        if(!userInfo.log){
+          this.$router.push({name: 'login'})
+        }
+      },
+      async loadMore() {
+        this.loading = true;
+        this.page++;
+        await this.getHome(this.page);
+        this.loading = false;
+      }
     }
 	}
 </script>
@@ -94,5 +95,60 @@
   }
   .homeContent{
     padding: 0 5px;
+  }
+  .stream{
+    columns: 2;
+    column-gap: 0.3rem;
+    font-size: 14px;
+    margin-bottom: 1rem;
+    color: #88878a;
+    text-align: left;
+  }
+  .stream p{
+    display: inline-block;
+  }
+  .stream .pic{
+    width: 100%;
+    height: auto;
+  }
+  .stream .portrait{
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 999px;
+  }
+  .picItem{
+    height:100%;
+    overflow: auto;
+    background-color: #fff;
+    border-radius: 0.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .picDes{
+    color: #202020;
+    font-size: 12px;
+    padding-left: 0.3rem;
+    height: 0.5rem;
+  }
+  .picInfo{
+    padding-left: 0.32rem;
+  }
+  .picInfo .iconfont{
+    font-size: 12px;
+  }
+  .picInfo p{
+    margin-right: 0.2rem;
+  }
+  .owner{
+    padding-left: 0.2rem;
+  }
+  .owner .picName{
+    display: inline-block;
+    line-height: 0.5rem;
+  }
+  .picName p{
+    display: block;
+  }
+  .picAlbum{
+    color: #454545;
   }
 </style>

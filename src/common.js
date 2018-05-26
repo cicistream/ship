@@ -1,5 +1,10 @@
 import userInfo from './components/userInfo.vue'
 export default function install(Vue, options) {
+  Vue.prototype.checkIn = function(){
+    if(!userInfo.userId){
+      this.$router.replace({name: 'login'});
+    }
+  };
   Vue.prototype.toDetail = function (value) {
     this.$router.push({ name: 'detail', params: { id: value}});
   };
@@ -10,8 +15,8 @@ export default function install(Vue, options) {
     this.$router.push({ name: 'album', params: { album: value}});
   };
   Vue.prototype.toZone = function (value) {
-      this.$router.push({ name: 'zone'});
-      userInfo.hisId = value ;
+    userInfo.hisId = value ;
+    this.$router.push({ name: 'zone'});
   };
   Vue.prototype.toFans = function (value) {
     this.$router.push({ name: 'fans', params: { id: value}});

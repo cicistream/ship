@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <foot></foot>
     <mt-header title="图片详情" style="background-color: #f8f8f8;color: black">
       <div @click="routerBack" slot="left">
@@ -13,18 +13,14 @@
         <mt-button icon="more"></mt-button>
       </router-link>
     </mt-header>
-    <div class="container">
-      <img class="imgShow" v-lazy='detailImg.imgUrl'></img>
+    <div style="background-color: #f8f8f8;">
+      <img class="imgShow" :src="detailImg.imgUrl"></img>
       <div v-if='detailImg.des' class="picInfo">
         <p class="picDesDetail">{{detailImg.des}}</p>
-        <!-- <i class="iconfont">&#xe736;</i>
-        <span>20</span>
-        <i class="iconfont">&#xe83b;</i>
-        <span>3</span> -->
       </div>
       <div class="owner">
-        <img @click="toHisZone(detailImg.author)" class="portrait" v-lazy="detailImg.portrait">   <span>{{detailImg.id}}</span><br>
-        <img @click="toAlbum(detailImg.album)" class="albumPic" v-lazy="detailImg.portrait">   <span>{{detailImg.name}}</span>
+        <img @click="toZone(detailImg.name)" class="portrait" :src="detailImg.authorUrl">   <span>{{detailImg.name}}</span><br>
+        <img @click="toAlbum(detailImg.album)" class="albumPic" :src="detailImg.albumUrl">   <span>{{detailImg.collect.length}}</span>
       </div>
     </div>
     <div class="morePic">
@@ -46,78 +42,36 @@
       Lazyload,
       water
     },
-    mounted() {
-    this.getPost(this.$route.params.id);
+    async created() {
+    //this.getPost(this.$route.params.id);
+    await this.getPicDetail(this.$route.params.id);
     },
-    watch: {
-    '$route' (to, from) {
-        if(to.name === 'detail'){
-          this.getPicDetail(to.params.id);
-        }
-      }
-    },
+    // watch: {
+    // '$route' (to, from) {
+    //     if(to.name === 'detail'){
+    //       this.getPicDetail(to.params.id);
+    //     }
+    //   }
+    // },
     data(){
       return{
-        detailImg: {},
+        detailImg: [],
         hasCollect: 'true',
-        morePic:[
-					{   
-						id: "cicistream",
-            name: "hua",
-            des: '我想试试',
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/road.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "coco",
-            name: "nian",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/us.jpg"),
-						portrait: require("../src/assets/he.jpg")
-					},
-					{   
-						id: "Kira",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/me.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/feng.jpeg"),
-						portrait: require("../src/assets/pic.jpeg")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/hair.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/we.jpg"),
-						portrait: require("../src/assets/logo.png")
-					}
-				   ]
+        morePic:[]
 			}
     },
     methods:{
       getPicDetail(id){
-        this.$http.get(`detail/${id}`).then((response) => {
-            if(response.data.code === 0){
-                this.detailImg = response.data.pic;
+        var date=new Date();
+        var timer=date.getTime().toString();
+        this.$http.get('/api/detail',{
+          params:{
+            id: this.$route.params.id,
+            time: timer
+          }
+        }).then((res) => {
+            if(res.data.code === 200){
+                this.detailImg = res.data.data;
             }
         });
       },

@@ -7,13 +7,13 @@
             <i class="iconfont">&#xe736;</i>
             <p>{{pic.like}}</p>
             <i class="iconfont">&#xe83b;</i>
-            <p>{{pic.collect}}</p>
+            <p>{{pic.collect.length}}</p>
           </div>
           <div class="owner">
-            <img class="portrait" v-lazy="pic.portrait" @click="toZone(pic.id)">
-            <div class="picName">
-              <p class="picOwner">{{pic.id}}</p>
-              <p class="picAlbum">{{pic.name}}</p>
+            <img class="portrait" v-lazy="pic.authorUrl" @click="toZone(pic.name)">
+            <div class="picName" style="padding-left: 30px;">
+              <p class="picOwner">{{pic.name}}</p>
+              <p class="picAlbum">{{pic.collect[0]}}</p>
             </div>
           </div>
         </div>
@@ -22,6 +22,9 @@
 <script>
   export default{
     name: "water",
+    components:{
+     
+    },
     props:{
       dataSource: Array
     },
@@ -29,6 +32,9 @@
       return{
 
       }
+    },
+    methods:{
+      
     }
   }
 </script>

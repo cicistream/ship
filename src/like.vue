@@ -11,24 +11,32 @@
     components: {
       water,
     },
-    mounted(){
-      getLikeList();
-    },
-    data(){
-      return{
-        likeList:[
-          {
-            
-          }
-        ]
+    // data(){
+    //   return{
+    //     likeList:[]
+    //   }
+    // },
+    // async mounted(){
+    //   for(let i = 0; i <this.likes.length;i++){
+    //     await this.getlike(this.likes[i]);
+    //   }
+    // },
+    computed:{
+      likeList(){
+        return this.$route.params.data;
       }
     },
     methods:{
-      getLikeList(){
-        this.$http.get('/zone/like',function(req,res){
+      // getlike(value){
+      //     this.$http.get('/api/zone/like',{params:{name: value}}).then((res)=>{
+      //       if(res.data.code === 200){
+      //         console.log(res.data.data)
+      //         this.likeList = this.likeList.concat(res.data.data);
+      //       }
+      //     }).catch((e)=>{
 
-        })
-      }
+      //     })
+      //   }
     }
   }
 </script>

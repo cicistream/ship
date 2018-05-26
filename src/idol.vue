@@ -13,25 +13,31 @@
       },
       data(){
         return{
-         idolList:[
-           {
-             id: "cicistream",
-             des: "hhh",
-             imgUrl: require("./assets/me.jpg")
-           },
-           {
-             id: "cicistream",
-             des: "hhh",
-             imgUrl: require("./assets/me.jpg")
-           },
-           {
-             id: "cicistream",
-             des: "hhh",
-             imgUrl: require("./assets/me.jpg")
-           }
-         ]
+          idolList:[]
         }
-      }
+      },
+      async mounted(){
+        for(let i = 0; i <this.idols.length;i++){
+          await this.getidol(this.idols[i]);
+        }
+      },
+      computed:{
+        idols(){
+          return this.$route.params.data;
+        }
+      },
+      methods:{
+        getidol(value){
+            this.$http.get('/api/zone/idol',{params:{name: value}}).then((res)=>{
+              if(res.data.code === 200){
+                console.log(res.data.data)
+                this.idolList = this.idolList.concat(res.data.data);
+              }
+            }).catch((e)=>{
+
+            })
+          }
+    }
     }
   </script>
   <style></style>

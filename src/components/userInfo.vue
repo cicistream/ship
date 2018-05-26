@@ -2,15 +2,17 @@
 
 </template>
 <script>
-  const userId = 'cicistream';
-  let password = '234jindo'
-  let hisId = '';
-  let imgUrl = require("../assets/pet.jpeg");
+  var userId = '';
+  var password = ''
+  var hisId = '';
+  var imgUrl = '';
+  var log = 'false';
   export default{
     userId,
     hisId,
     imgUrl,
-    password
+    password,
+    log,
   }
 </script>
 <style></style>
