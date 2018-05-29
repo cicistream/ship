@@ -18,12 +18,12 @@
   import { Actionsheet } from 'mint-ui';
   import { Header } from 'mint-ui';
   import userInfo from './components/userInfo.vue'
-  import { Field } from 'mint-ui';
+  import { Field,Toast } from 'mint-ui';
 
   export default{
     name: "set",
     components: {
-      Header,Actionsheet,Field,userInfo
+      Header,Actionsheet,Field,userInfo,Toast
     },
     data(){
       return{
@@ -57,8 +57,11 @@
           userInfo.password = this.password;
           userInfo.imgUrl = this.imgUrl;
         }else {
-          alert("所有信息不得为空！");
+          Toast("所有信息不得为空！");
         }
+        this.$http.post('/api/user',data).then((res)=>{
+
+        })
       }
     }
   }

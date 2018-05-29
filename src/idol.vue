@@ -30,7 +30,7 @@
         getidol(value){
             this.$http.get('/api/zone/idol',{params:{name: value}}).then((res)=>{
               if(res.data.code === 200){
-                console.log(res.data.data)
+                console.log(res.data.data.name)
                 this.idolList = this.idolList.concat(res.data.data);
               }
             }).catch((e)=>{

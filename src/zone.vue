@@ -18,9 +18,9 @@
           </div>
         </mt-header>
         <div class="userPanel">
-          <img class="portrait" v-lazy='user.imgUrl'>
+          <img class="my-portrait" :src='user.imgUrl'>
           <p style="font-size: 20px;font-weight: bold">{{zoneHost}}</p>
-          <p @click="toFans">{{user.fans.length}} 粉丝 ></p>
+          <p @click="toFans()">{{user.fans.length}} 粉丝 ></p>
         </div>
         <div class="infoPanel">
           <router-link :to="{name: 'myAlbum', params: { data: user.albums}}" class="info">{{user.albums.length}}<br>画集</router-link>
@@ -47,17 +47,24 @@
       Button
     },
     async mounted(){
-      await this.getZoneData("cicistream");
+      if(userInfo.userId == ''){
+        this.$router.push({name: "login"})
+      }else{
+        this.getZoneData(this.zoneHost);
+      }
+      
+      // if(this.user.imgUrl==null){this.$router.push({name:"login"})}
     },
     data(){
       return{
         hasAttention: 'false',
-        user: {}
+        user: {},
+        albumList:[]
       }
     },
     computed:{
       zoneHost(){
-        if(!userInfo.hisId){userInfo.hisId = userInfo.userId}
+        if(this.$route.params.name){userInfo.hisId = userInfo.userId}
         return userInfo.hisId;
       }
     },
@@ -68,27 +75,25 @@
       getZoneData(value){
         this.$http.get('/api/zone',{params:{name: value}}).then((res)=>{
           if(res.data.code === 200){
-            var idols = res.data.data.idols;
-            for(let i = 0;i<idols.length;i++){
-              if(idols[i]==this.zoneHost){
-                this.hasAttention = 'true';
-              }
-            }
             this.user = res.data.data;
+            // if(this.user.idol.indexOf(userInfo.hisId) != -1){
+            //   this.hasAttention = 'true';
+            // }
           }
         }).catch((e)=>{
 
         })
       },
       toggleAtt(){
-        this.checkIn();
+        
         return this.hasAttention = !this.hasAttention;
       },
       routerBack(){
-        this.$router.go(-1);
+        this.$router.push({name: "home"});
       },
       toFans(){
-        this.$router.replace({name:'fans',params:{id: this.zoneHost}});
+        console.log(this.user.fans)
+        this.$router.replace({name:'fans',params:{data: this.user.fans}});
       },
       toNewAlbum(){
         this.$router.replace({name:'newAlbum',params:{id: this.zoneHost}});
@@ -117,7 +122,7 @@
   .userPanel p{
     padding-left: 2.3rem;
   }
-  .myPanel .portrait{
+  .myPanel .my-portrait{
     border-radius: 999px;
     width: 2.1rem;
     height: 2.1rem;

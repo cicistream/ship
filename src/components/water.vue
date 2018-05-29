@@ -1,21 +1,21 @@
 <template>
     <div class="stream">
         <div v-for="pic in dataSource" class="picItem">
-          <img class="pic" v-lazy="pic.imgUrl" @click='toDetail(pic.id)'>
+          <img class="pic" :src="pic.imgUrl" @click='toDetail(pic.id)'>
           <p v-if='pic.des' class="picDes">{{pic.des}}</p>
           <div class="picInfo">
             <i class="iconfont">&#xe736;</i>
             <p>{{pic.like}}</p>
             <i class="iconfont">&#xe83b;</i>
-            <p>{{pic.collect.length}}</p>
+            <p>1</p>
           </div>
           <div class="owner">
             <img class="portrait" v-lazy="pic.authorUrl" @click="toZone(pic.name)">
-            <div class="picName" style="padding-left: 30px;">
+            <div class="picName">
               <p class="picOwner">{{pic.name}}</p>
-              <p class="picAlbum">{{pic.collect[0]}}</p>
             </div>
           </div>
+          <br>
         </div>
     </div>
 </template>

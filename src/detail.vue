@@ -5,13 +5,12 @@
       <div @click="routerBack" slot="left">
         <mt-button icon="back">返回</mt-button>
       </div>
-      <router-link to="/" slot="right">
+      <div slot="right">
         <mt-button>
-          <i v-if="hasCollect" class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
-          <i v-else class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe735;</i>
+          <i v-if="hasCollect" @click="likeOrNo" class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
+          <i v-else class="iconfont" @click="likeOrNo" style="font-size: 18px; margin-right: 8px;">&#xe735;</i>
         </mt-button>
-        <mt-button icon="more"></mt-button>
-      </router-link>
+      </div>
     </mt-header>
     <div style="background-color: #f8f8f8;">
       <img class="imgShow" :src="detailImg.imgUrl"></img>
@@ -20,7 +19,7 @@
       </div>
       <div class="owner">
         <img @click="toZone(detailImg.name)" class="portrait" :src="detailImg.authorUrl">   <span>{{detailImg.name}}</span><br>
-        <img @click="toAlbum(detailImg.album)" class="albumPic" :src="detailImg.albumUrl">   <span>{{detailImg.collect.length}}</span>
+        <img @click="toAlbum(detailImg.albumId)" class="albumPic" :src="detailImg.albumUrl">   <span>{{detailImg.album}}</span>
       </div>
     </div>
     <div class="morePic">
@@ -34,6 +33,7 @@
   import { Lazyload } from 'mint-ui';
   import foot from './components/foot';
   import water from './components/water';
+  import userInfo from './components/userInfo.vue'
   export default{
     name: 'detail',
     components: {
@@ -42,23 +42,32 @@
       Lazyload,
       water
     },
-    async created() {
+    async mounted() {
+    document.documentElement.scrollTop = 0;
     //this.getPost(this.$route.params.id);
     await this.getPicDetail(this.$route.params.id);
+    await this.getMoreLike(this.detailImg.albumId);
     },
-    // watch: {
-    // '$route' (to, from) {
-    //     if(to.name === 'detail'){
-    //       this.getPicDetail(to.params.id);
-    //     }
-    //   }
-    // },
+    watch: {
+    '$route' (to, from) {
+        if(to.name === 'detail'){
+          this.getPicDetail(to.params.id);
+          document.documentElement.scrollTop = 0;
+        }
+      }
+    },
     data(){
       return{
-        detailImg: [],
+        detailImg: {},
         hasCollect: 'true',
-        morePic:[]
+        morePic:[],
+        hasCollect: 'false'
 			}
+    },
+    computed:{
+      albumId(){
+        return this.detailImg.albumId;
+      }
     },
     methods:{
       getPicDetail(id){
@@ -71,13 +80,46 @@
           }
         }).then((res) => {
             if(res.data.code === 200){
+              console.log(res.data.data.albumId)
                 this.detailImg = res.data.data;
+                if(userInfo.userLikes.indexOf(this.detailImg.id)!=-1){
+                  this.hasCollect = 'true';
+                }
             }
         });
+        
+      },
+      getMoreLike(value){
+        this.$http.get('/api/album',{
+          params:{
+            id: 101,
+          }
+        }).then((res) => {
+            if(res.data.code === 200){
+            this.morePic = res.data.data.hasPic.slice(0,6);
+            }
+        }).catch((e)=>{
+         console.log(e)})
+        
       },
       routerBack(){
         this.$router.go(-1);
       },
+      likeOrNo(){
+        this.hasCollect = !this.hasCollect;
+        this.$http.get('/api/like',{
+          params:{
+            id: this.detailImg.id,
+            like: this.hasCollect
+          }
+        }).then((res)=>{
+          if(res.code == 200){
+            Toast("操作成功！");
+          }else{
+            Toast("请重试！");
+          }
+        })
+      }
     }
   }
 </script>

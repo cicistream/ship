@@ -3,7 +3,7 @@
     <div class="zoneAlbums">
       <div class="no-list" v-if="!albumList.length">暂无收藏</div>
       <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
-          <img class="zoneAlbumShow" :src='item.hasPic[0].imgUrl'>
+          <img class="zoneAlbumShow" :src='item.authorUrl'>
           <div class="zoneAlbumDes">
             <p style="font-weight: bold;text-align: left;">{{item.name}}</p>
             <p style="text-align: left;">"{{item.des}}"</p>
@@ -14,20 +14,21 @@
   </div>
 </template>
 <script>
-  import { Lazyload } from 'mint-ui';
+  import { Lazyload,Indicator } from 'mint-ui';
   export default{
     name: 'myAlbum',
     components: {
-      Lazyload
+      Lazyload,
+      Indicator
+    },
+    mounted(){
+      for(let i = 0; i <this.albums.length;i++){
+      this.getAlbum(this.albums[i]);
+      }
     },
     data(){
       return{
-        albumList:[]
-      }
-    },
-    async mounted(){
-      for(let i = 0; i <this.albums.length;i++){
-        await this.getAlbum(this.albums[i]);
+        albumList: []
       }
     },
     computed:{
@@ -37,15 +38,14 @@
     },
     methods:{
       getAlbum(value){
-          this.$http.get('/api/zone/myAlbum',{params:{name: value}}).then((res)=>{
-            if(res.data.code === 200){
-              console.log(res.data.data)
-              this.albumList = this.albumList.concat(res.data.data);
-            }
-          }).catch((e)=>{
+        this.$http.get('/api/album',{params:{id: value}}).then((res)=>{
+            console.log(res.data.data)
+            this.albumList = this.albumList.concat(res.data.data);
+          
+        }).catch((e)=>{
 
-          })
-        }
+        })
+      },
     }
   }
 </script>
@@ -59,7 +59,7 @@
     height: 6rem;
     background-color: #fff;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
   }
   .zoneAlbumShow{
     max-width: 100%;

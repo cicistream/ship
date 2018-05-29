@@ -9,7 +9,7 @@
 				<i class="iconfont">&#xe696;</i>
 				<p></p>
 			</router-link>
-			<router-link to="/zone" class="foot3">
+			<router-link :to="{name:'zone',params:{name: id}}" class="foot3">
 				<i class="iconfont">&#xe6af;</i>
 				<p></p>
 			</router-link>

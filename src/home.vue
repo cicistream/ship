@@ -13,15 +13,15 @@
             <i class="iconfont">&#xe736;</i>
             <p>{{pic.like}}</p>
             <i class="iconfont">&#xe83b;</i>
-            <p>{{pic.collect.length}}</p>
+            <p>1</p>
           </div>
           <div class="owner">
             <img class="portrait" v-lazy="pic.authorUrl" @click="toZone(pic.name)">
             <div class="picName">
               <p class="picOwner">{{pic.name}}</p>
-              <p class="picAlbum">{{pic.collect[0]}}</p>
             </div>
           </div>
+          <br>
         </div>
     </div>
 		</div>
@@ -33,7 +33,7 @@
   import { Lazyload } from 'mint-ui';
   import water from './components/water.vue'
   import userInfo from "./components/userInfo.vue";
-  import { InfiniteScroll } from 'mint-ui';
+  import { InfiniteScroll,Toast } from 'mint-ui';
 	export default{
 		name:'home',
 		components:{
@@ -42,10 +42,21 @@
       Lazyload,
       water,
       userInfo,
-      InfiniteScroll
+      InfiniteScroll,Toast
     },
-    mounted(){
-      this.getHome(0);
+    async mounted(){
+      document.documentElement.scrollTop = 0;
+      await this.getHome(this.page);
+    },
+    watch:{
+      // homeSource:{
+      //   handler(){
+      //     if(this.homeSource.length>=30){
+      //     this.homeSource = [];
+      //     document.documentElement.scrollTop = 0;
+      //     }
+      //   }
+      // }
     },
 		data(){
 			return{
@@ -62,8 +73,12 @@
           }
         }).then((res)=>{
           if(res.data){
-            if(!res.data.data){alert("已无更多图片！") }
-            this.homeSource = this.homeSource.concat(res.data.data) ;
+            if(res.data.data.length == 0 ){ Toast("已无更多图片！") }
+            console.log(res.data.data)
+            for(let i =0;i<res.data.data.length;i++){
+              res.data.data[i].imgUrl = res.data.data[i].imgUrl+"-shipHome";
+            }
+            this.homeSource = this.homeSource.concat(res.data.data);
           }
         }).catch((e)=>{
          console.log(e)
@@ -89,9 +104,8 @@
     width: 100vw;
   }
   image[lazy=loading] {
-   width: 40px;
+   width: 100%;
    height: 300px;
-   margin: auto;
   }
   .homeContent{
     padding: 0 5px;

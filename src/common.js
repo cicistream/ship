@@ -12,7 +12,7 @@ export default function install(Vue, options) {
     this.$router.push({ name: 'result', params: { tag: value}});
   };
   Vue.prototype.toAlbum = function (value) {
-    this.$router.push({ name: 'album', params: { album: value}});
+    this.$router.push({ name: 'album', params: { id: value}});
   };
   Vue.prototype.toZone = function (value) {
     userInfo.hisId = value ;

@@ -58,7 +58,7 @@
   .idol-header{
     width: 100px;
     height: 100px;
-    padding: 10px 30px;
+    margin: 3px auto;
   }
   .idol-header img{
     width: 100%;

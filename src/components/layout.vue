@@ -1,9 +1,9 @@
 <template>
   <div class="static-container">
-    <div class="album" v-for="(album,index) in dataSource" @click="toAlbum(album)">
-      <img :src="album.imgUrl" style="position:absolute;width: 100%;height: auto; min-height: 60%;">
+    <div class="album" v-for="(album,index) in dataSource" @click="toAlbum(album.id)">
+      <img :src="album.hasPic[0].imgUrl" style="position:absolute;width: 100%;height: auto; min-height: 60%;">
       <div class="layout-des">
-          <p>{{album.id}}</p>
+          <p>{{album.name}}</p>
           <p>{{album.des}}</p>
       </div>
     </div>

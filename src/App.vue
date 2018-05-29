@@ -9,7 +9,7 @@ import mainCss from "./main.css"
 export default {
   name: 'App',
   components: {
-    cssReset,
+    cssReset
   }
 }
 </script>

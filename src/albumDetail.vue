@@ -23,13 +23,13 @@
             {{album.author}}
           </span>
           <span>
-            {{hasPictureList.length}} 张收藏
+            {{album.hasPic.length}} 张收藏
           </span>
         </div>
       </div>
     </div>
-    <div class="no-list" v-if="!hasPictureList.length">暂无图片</div>
-    <water style="padding: 5px;" v-else :dataSource="hasPictureList"></water>
+    <div class="no-list" v-if="!album.hasPic.length">暂无图片</div>
+    <water style="padding: 5px;" v-else :dataSource="album.hasPic"></water>
   </div>
 </template>
 <script>
@@ -41,67 +41,15 @@
     components: {
       water,Header,Button
     },
+    async mounted(){
+      document.documentElement.scrollTop = 0;
+      let id = this.$route.params.id;
+      await this.getAlbum(id);
+    },
     data(){
       return{
         album:{
-          id: 201,
-          name: "相逢于海",
-          des: "这是一首简单的小情歌，讲述两个鲸鱼相逢与茫茫海洋",
-          author: "cici",
-          authorUrl: require("./assets/me.jpg"),
-        },
-        hasPictureList: [
-        {   
-						id: "cicistream",
-            name: "hua",
-            des: '我想试试',
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/road.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "coco",
-            name: "nian",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/us.jpg"),
-						portrait: require("../src/assets/he.jpg")
-					},
-					{   
-						id: "Kira",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/me.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/feng.jpeg"),
-						portrait: require("../src/assets/pic.jpeg")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/hair.jpg"),
-						portrait: require("../src/assets/logo.png")
-					},
-					{   
-						id: "cicistream",
-            name: "hua",
-            like: 20,
-            collect: 3,
-						imgUrl: require("../src/assets/we.jpg"),
-						portrait: require("../src/assets/logo.png")
-					}
-        ],
-        hasAttention: 'true',
+        }
       }
     },
     computed:{
@@ -109,8 +57,8 @@
         if(this.album.author === userInfo.userId){
           return 'true';
         }
-        return 'false'
-;      }
+          return 'false';
+        },
     },
     methods:{
       toggleAtt(){
@@ -121,6 +69,16 @@
       },
       deletAlbum(){
         
+      },
+      getAlbum(value){
+        this.$http.get('/api/album',{params:{id: value}}).then((res)=>{
+        if(res.data.code === 200){
+          console.log(res.data.data)
+          this.album = res.data.data;
+        }
+        }).catch((e)=>{
+
+        })
       },
       toUpload(){
         this.$router.push({name: 'upload',params:{id: this.album.id}})

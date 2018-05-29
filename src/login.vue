@@ -11,11 +11,11 @@
 </template>
 <script>
   import userInfo from './components/userInfo.vue'
-  import { Field } from 'mint-ui';
+  import { Field,Toast } from 'mint-ui';
   export default{
     name: "login",
     components:{
-      Field
+      Field,Toast
     },
     data(){
       return{
@@ -31,9 +31,13 @@
           pwd : this.password
           }}).then((res)=>{
           if(res.data.code == 200){
-            userInfo.userId = this.username;
-            userInfo.password = this.password;
+            userInfo.userId = res.data.data.name;
+            userInfo.hidId = res.data.data.name;
             userInfo.log = 'true' ;
+            Toast(res.data.msg)
+            userInfo.data = res.data.data;
+            sessionStorage.user = res.data.data;
+            userInfo.userLikes = res.data.data.likes;
             this.$router.push({name:'home'});
           }
           else{
@@ -44,7 +48,7 @@
       });
         }
         else{
-          alert("请确认信息填写完成！");
+          Toast("请确认信息填写完成！");
         }
       },
       insertUser(){
@@ -53,12 +57,16 @@
             name: this.username,
             pwd: this.password
           }}).then((res)=>{
+            if(res.data.code == 700){
+              Toast(res.data.msg)
+            }
           if(res.data.code == 200){
-            userInfo.userId = this.username;
-            userInfo.password = this.password;
+            userInfo.userId = this.name;
+            userInfo.hidId = this.name;
             userInfo.log = 'true' ;
             console.log(res.data.msg)
-           // this.$router.push({name:'home'});
+            Toast(res.data.msg)
+            this.$router.push({name:'home'});
           }
         }).catch((e)=>{
          console.log(e)
