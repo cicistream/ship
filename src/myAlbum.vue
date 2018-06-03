@@ -15,6 +15,7 @@
 </template>
 <script>
   import { Lazyload,Indicator } from 'mint-ui';
+  import userInfo from "./components/userInfo.vue"
   export default{
     name: 'myAlbum',
     components: {
@@ -33,7 +34,7 @@
     },
     computed:{
       albums(){
-        return this.$route.params.data;
+        return this.$route.params.data || userInfo.data.albums;
       }
     },
     methods:{

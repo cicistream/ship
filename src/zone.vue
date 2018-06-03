@@ -13,7 +13,7 @@
             <mt-button icon="back" @click="routerBack">返回</mt-button>
           </div>
           <div slot="right">
-            <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
+            <mt-button @click="toggleAtt" v-if="!hasAttention" size="small" type="danger">+ 关注</mt-button>
             <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
           </div>
         </mt-header>
@@ -34,7 +34,7 @@
 </template>
 <script>
   import foot from './components/foot';
-  import { Lazyload,Header,Button } from 'mint-ui';
+  import { Lazyload,Header,Button,Toast } from 'mint-ui';
   import layout from './components/layout.vue';
   import userInfo from './components/userInfo.vue';
 	export default{
@@ -44,7 +44,8 @@
       Lazyload,
       Header,
       userInfo,
-      Button
+      Button,
+      Toast
     },
     async mounted(){
       if(userInfo.userId == ''){
@@ -52,7 +53,6 @@
       }else{
         this.getZoneData(this.zoneHost);
       }
-      
       // if(this.user.imgUrl==null){this.$router.push({name:"login"})}
     },
     data(){
@@ -62,9 +62,17 @@
         albumList:[]
       }
     },
+    watch: {
+      zoneHost: function(val){
+          this.getZoneData(val);
+          document.documentElement.scrollTop = 0;
+      }
+    },
     computed:{
       zoneHost(){
-        if(this.$route.params.name){userInfo.hisId = userInfo.userId}
+        if(this.$route.params.name){
+          userInfo.hisId = userInfo.userId
+        }
         return userInfo.hisId;
       }
     },
@@ -76,17 +84,21 @@
         this.$http.get('/api/zone',{params:{name: value}}).then((res)=>{
           if(res.data.code === 200){
             this.user = res.data.data;
-            // if(this.user.idol.indexOf(userInfo.hisId) != -1){
-            //   this.hasAttention = 'true';
-            // }
+            if(userInfo.data.idols.indexOf(this.user.name) != -1){
+              this.hasAttention = 'true';
+            }
           }
         }).catch((e)=>{
 
         })
       },
       toggleAtt(){
-        
-        return this.hasAttention = !this.hasAttention;
+        this.hasAttention = !this.hasAttention;
+        this.$http.get('/api/zone/att',{params:{name: userInfo.data.name,idol: this.zoneHost,att: this.hasAttention}}).then((res)=>{
+          if(res.data.code == 200){
+            Toast("操作成功!");
+          }
+        })
       },
       routerBack(){
         this.$router.push({name: "home"});

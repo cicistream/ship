@@ -28,8 +28,8 @@
     data(){
       return{
         name: userInfo.userId,
-        imgUrl: userInfo.imgUrl,
-        newPassword: userInfo.password
+        imgUrl: userInfo.data.imgUrl,
+        password: userInfo.data.password
       }
     },
     computed:{
@@ -40,22 +40,14 @@
         get(){
           return this.name;
         }
-      },
-      password:{
-        set(value){
-          this.newPassword = value;
-        },
-        get(){
-          return this.newPassword;
-        }
       }
     },
     methods:{
       postSet(){
         if(this.username&&this.password&&this.imgUrl){
-          userInfo.userId = this.username;
-          userInfo.password = this.password;
-          userInfo.imgUrl = this.imgUrl;
+          userInfo.data.userId = this.username;
+          userInfo.data.password = this.password;
+          userInfo.data.imgUrl = this.imgUrl;
         }else {
           Toast("所有信息不得为空！");
         }

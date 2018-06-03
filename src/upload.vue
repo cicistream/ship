@@ -7,6 +7,7 @@
           <mt-button slot="right" @click="upload">上传</mt-button>
         </mt-header>
         <div class="new-album">
+          <input class="input-pic" type="file" ref="files" accept="image/*" multiple>
           <p>图片描述<i style="color: red;">*</i></p>
           <mt-field placeholder="介绍一下这个图片吧" type="textarea" rows="4" v-modal="picDes"></mt-field>
         </div>
@@ -27,7 +28,14 @@
       },
       methods:{
         upload(){
-
+          var files = this.$refs.files.files[0]
+          var form = new FormData()
+          form.append("file",files)
+          let upload_url = '';
+          this.$http.post(upload_url, form)
+          .then( (res) => {
+              console.log(res.data)
+            })
         },
         routerBack(){
           this.$router.go(-1);
@@ -53,5 +61,12 @@
       width: 50%;
       margin: 0;
       border-right: 1px dotted #cecece;
+    }
+    .input-pic{
+      width: 80%;
+      height: 20px;
+      border: 1px solid #ccc;
+      padding: 100px 10px;
+      margin-top: 10px;
     }
   </style>
