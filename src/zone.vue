@@ -13,7 +13,7 @@
             <mt-button icon="back" @click="routerBack">返回</mt-button>
           </div>
           <div slot="right">
-            <mt-button @click="toggleAtt" v-if="!hasAttention" size="small" type="danger">+ 关注</mt-button>
+            <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
             <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
           </div>
         </mt-header>
@@ -47,7 +47,7 @@
       Button,
       Toast
     },
-    async mounted(){
+    created(){
       if(userInfo.userId == ''){
         this.$router.push({name: "login"})
       }else{
@@ -57,15 +57,20 @@
     },
     data(){
       return{
-        hasAttention: 'false',
         user: {},
-        albumList:[]
+        albumList:[],
+        hasAttention: this.getAtt(),
+        att: this.getattData()
       }
     },
     watch: {
       zoneHost: function(val){
-          this.getZoneData(val);
-          document.documentElement.scrollTop = 0;
+        this.getZoneData(val);
+        document.documentElement.scrollTop = 0;
+      },
+      hasAttention: function(){
+        userInfo.data = res.data;
+        this.getZoneData(this.zoneHost);
       }
     },
     computed:{
@@ -74,7 +79,8 @@
           userInfo.hisId = userInfo.userId
         }
         return userInfo.hisId;
-      }
+      },
+      
     },
     methods:{
       isMy(){
@@ -84,9 +90,6 @@
         this.$http.get('/api/zone',{params:{name: value}}).then((res)=>{
           if(res.data.code === 200){
             this.user = res.data.data;
-            if(userInfo.data.idols.indexOf(this.user.name) != -1){
-              this.hasAttention = 'true';
-            }
           }
         }).catch((e)=>{
 
@@ -94,17 +97,34 @@
       },
       toggleAtt(){
         this.hasAttention = !this.hasAttention;
-        this.$http.get('/api/zone/att',{params:{name: userInfo.data.name,idol: this.zoneHost,att: this.hasAttention}}).then((res)=>{
+        this.getattData();
+        this.$http.get('/api/zone/att',{params:{name: userInfo.data.name,idol: this.zoneHost,att: this.att}}).then((res)=>{
           if(res.data.code == 200){
             Toast("操作成功!");
+            this.$nextTick(function () {
+              
+            })
           }
         })
+      },
+      getAtt(){
+        if(userInfo.data.idols.indexOf(this.zoneHost) != -1){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      getattData(){
+        if(this.hasAttention == true){
+          this.att = 1;
+        }else{
+          this.att = 0;
+        }
       },
       routerBack(){
         this.$router.push({name: "home"});
       },
       toFans(){
-        console.log(this.user.fans)
         this.$router.replace({name:'fans',params:{data: this.user.fans}});
       },
       toNewAlbum(){

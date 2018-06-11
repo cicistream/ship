@@ -9,10 +9,10 @@
           <p @click="toUpload" class="iconfont" style="color: crimson;font-size: 18px;margin-right: 10px;display: inline-block;">&#xe6b9;</p>
           <mt-button @click="deletAlbum" size="small" type="danger">删除画板</mt-button>
         </div>
-        <div v-else slot="right">
-            <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
-            <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
-          </div>
+        <!-- <div v-else slot="right">
+          <mt-button @click="toggleAtt" v-if="hasAttention" size="small" type="danger">+ 关注</mt-button>
+          <mt-button @click="toggleAtt" v-else size="small" type="danger">取消关注</mt-button>
+        </div> -->
       </mt-header>
       <div class="album-det">
         <p class="album-title">{{album.name}}</p>
@@ -54,10 +54,10 @@
     },
     computed:{
       myAlbum(){
-        if(this.album.author === userInfo.userId){
-          return 'true';
+        if(this.album.author === userInfo.data.name){
+          return true;
         }
-          return 'false';
+          return false;
         },
     },
     methods:{
@@ -68,7 +68,15 @@
         this.$router.go(-1);
       },
       deletAlbum(){
-        
+        this.$http.get('/api/album/delete',{params:{id: this.$route.params.id}}).then((res)=>{
+        if(res.data.code === 200){
+          console.log(res.data.data)
+          this.album = res.data.data;
+          this.$router.push({name:'home'})
+        }
+        }).catch((e)=>{
+
+        })
       },
       getAlbum(value){
         this.$http.get('/api/album',{params:{id: value}}).then((res)=>{

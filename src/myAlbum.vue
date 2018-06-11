@@ -1,14 +1,17 @@
 <template>
   <div>
     <div class="zoneAlbums">
-      <div class="no-list" v-if="!albumList.length">暂无收藏</div>
-      <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
-          <img class="zoneAlbumShow" :src='item.authorUrl'>
-          <div class="zoneAlbumDes">
-            <p style="font-weight: bold;text-align: left;">{{item.name}}</p>
-            <p style="text-align: left;">"{{item.des}}"</p>
-            <span class="Anumber"><i class="iconfont">&#xe7ce;</i> {{item.hasPic.length}} </span>
-          </div>
+      <mt-spinner type="snake" v-if="spin"></mt-spinner>
+      <div v-else>
+        <div class="no-list" v-if="!albumList.length">暂无收藏</div>
+        <div v-else v-for="item in albumList" class="zoneAlbum" @click="toAlbum(item.id)">
+            <img class="zoneAlbumShow" :src='item.authorUrl'>
+            <div class="zoneAlbumDes">
+              <p style="font-weight: bold;text-align: left;">{{item.name}}</p>
+              <p style="text-align: left;">"{{item.des}}"</p>
+              <span class="Anumber"><i class="iconfont">&#xe7ce;</i> {{item.hasPic.length}} </span>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -26,10 +29,12 @@
       for(let i = 0; i <this.albums.length;i++){
       this.getAlbum(this.albums[i]);
       }
+      this.spin = false;
     },
     data(){
       return{
-        albumList: []
+        albumList: [],
+        spin: true,
       }
     },
     computed:{

@@ -6,9 +6,9 @@
         <mt-button icon="back">返回</mt-button>
       </div>
       <div slot="right">
-        <mt-button>
-          <i v-if="hasCollect" @click="likeOrNo" class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
-          <i v-else class="iconfont" @click="likeOrNo" style="font-size: 18px; margin-right: 8px;">&#xe735;</i>
+        <mt-button @click="likeOrNo">
+          <i v-if="hasCollect"  class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe736;</i>
+          <i v-else class="iconfont" style="font-size: 18px; margin-right: 8px;">&#xe735;</i>
         </mt-button>
       </div>
     </mt-header>
@@ -42,11 +42,14 @@
       Lazyload,
       water
     },
-    async mounted() {
-    document.documentElement.scrollTop = 0;
-    //this.getPost(this.$route.params.id);
-    await this.getPicDetail(this.$route.params.id);
-    await this.getMoreLike(this.detailImg.albumId);
+    async created() {
+      document.documentElement.scrollTop = 0;
+      //this.getPost(this.$route.params.id);
+      if(userInfo.userId == ''){
+        this.$router.push({name: "login"})
+      }else{
+        await this.getPicDetail(this.$route.params.id);
+      }
     },
     watch: {
     '$route' (to, from) {
@@ -59,15 +62,13 @@
     data(){
       return{
         detailImg: {},
-        hasCollect: 'true',
         morePic:[],
-        hasCollect: 'false'
+        albumId: 0,
+        hasCollect : this.getLike()
 			}
     },
     computed:{
-      albumId(){
-        return this.detailImg.albumId;
-      }
+
     },
     methods:{
       getPicDetail(id){
@@ -80,27 +81,26 @@
           }
         }).then((res) => {
             if(res.data.code === 200){
-              console.log(res.data.data.albumId)
+                this.albumId = res.data.data.albumId;
                 this.detailImg = res.data.data;
                 if(userInfo.userLikes.indexOf(this.detailImg.id)!=-1){
                   this.hasCollect = 'true';
                 }
+                this.getMoreLike(this.detailImg.albumId);
             }
         });
-        
       },
       getMoreLike(value){
         this.$http.get('/api/album',{
           params:{
-            id: 101,
+            id: this.albumId
           }
         }).then((res) => {
-            if(res.data.code === 200){
-            this.morePic = res.data.data.hasPic.slice(0,6);
-            }
+          if(res.data.code === 200){
+          this.morePic = res.data.data.hasPic.slice(0,10);
+          }
         }).catch((e)=>{
          console.log(e)})
-        
       },
       routerBack(){
         this.$router.go(-1);
@@ -109,6 +109,7 @@
         this.hasCollect = !this.hasCollect;
         this.$http.get('/api/like',{
           params:{
+            name: userInfo.data.name,
             id: this.detailImg.id,
             like: this.hasCollect
           }
@@ -119,6 +120,11 @@
             Toast("请重试！");
           }
         })
+      },
+      getLike(){
+        if(userInfo.data.likes.indexOf(this.$route.params.id)==-1){
+          return false;
+        }else return true;
       }
     }
   }

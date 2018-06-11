@@ -9,7 +9,7 @@
   var log = 'false';
   var albums = [];
   var userLikes = [];
-  var data = {};
+  var data;
   export default{
     userId,
     hisId,

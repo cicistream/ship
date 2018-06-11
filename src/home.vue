@@ -23,6 +23,10 @@
           </div>
           <br>
         </div>
+        <div v-if="!next" class="picItem" @click="next=true">
+          <p style="line-height: 40px;padding-left: 20px;">next</p>
+          <br>
+        </div>
     </div>
 		</div>
 	</div>
@@ -62,7 +66,8 @@
 			return{
         page: 0,
         homeSource: [],
-        collection: 0 
+        collection: 0,
+        next:true,
       }
     },
     methods: {
@@ -73,12 +78,15 @@
           }
         }).then((res)=>{
           if(res.data){
-            if(res.data.data.length == 0 ){ Toast("已无更多图片！") }
+            if(res.data.data.length == 0 ){ Toast("已无更多图片！"); return }
             console.log(res.data.data)
             for(let i =0;i<res.data.data.length;i++){
               res.data.data[i].imgUrl = res.data.data[i].imgUrl+"-shipHome";
             }
             this.homeSource = this.homeSource.concat(res.data.data);
+            if(this.homeSource.length%20==0){
+              this.next = false;
+            }
           }
         }).catch((e)=>{
          console.log(e)
@@ -90,10 +98,12 @@
         }
       },
       async loadMore() {
-        this.loading = true;
-        this.page++;
-        await this.getHome(this.page);
-        this.loading = false;
+        if(this.next){
+          this.loading = true;
+          this.page++;
+          await this.getHome(this.page);
+          this.loading = false;
+        }
       }
     }
 	}

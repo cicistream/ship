@@ -9,7 +9,7 @@
       <div style="padding: 20px 0;">
         <img :src="imgUrl" style=" width: 200px;height: 200px;border-radius: 99px;">
         <p class="list-head" style="padding: 20px 0;">账号信息<i style="color: red;">*</i></p>
-        <mt-field label="用户名" placeholder="username" v-model="username"></mt-field>
+        <mt-field disabled label="用户名" placeholder="username" v-model="username"></mt-field>
         <mt-field label="密码" placeholder="password" type="password" v-model="password"></mt-field>
       </div>
   </div>
@@ -51,8 +51,14 @@
         }else {
           Toast("所有信息不得为空！");
         }
-        this.$http.post('/api/user',data).then((res)=>{
-
+        this.$http.get('/api/user',{
+          params:{
+            name:this.username,
+            pwd:this.password,
+            imgUrl:this.imgUrl
+          }
+        }).then((res)=>{
+          this.$router.push({name:'home'})
         })
       }
     }

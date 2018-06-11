@@ -3,11 +3,11 @@
     	<foot></foot>
 		<div class="categoryContent">
       <header>
-        <mt-search
+        <!-- <mt-search
           v-model="searchValue"
           cancel-text="取消"
           placeholder="搜索" class="mt-search" @click="toResult(searchValue)">
-        </mt-search>
+        </mt-search> -->
       </header>       
 			<div class="cate">
 				<ul class="cateList">
